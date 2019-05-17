@@ -1,0 +1,17 @@
+{
+  "name": "Ejercicio5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pug": "^2.0.3",
+    "sys": "0.0.1",
+    "w3c-xmlhttprequest": "^2.1.3"
+  }
+}
