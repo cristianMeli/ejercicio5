@@ -4,23 +4,10 @@ var XMLHttpRequest = require("w3c-xmlhttprequest").XMLHttpRequest
 var pug = require('pug')
 
 function iniciar(response, postData) {
+
     console.log("Manipulador de peticion 'inicio' fue llamado.");
-
-    /*
-    var body = '<html>'+
-        '<head>'+
-        '<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />'+
-        '</head>'+
-        '<body>'+
-        '<form action="/subir" method="post">'+
-        '<textarea name="text" rows="20" cols="60"></textarea>'+
-        '<input type="submit" value="Submit text" />'+
-        '</form>'+
-        '</body>'+
-        '</html>';
-     */
-
     var f = 'index.html';
+
     fs.readFile(f, function (err, data) {
         if(err){
             response.writeHead(404,{'Content-type':'text/html'});
@@ -33,11 +20,6 @@ function iniciar(response, postData) {
         }
     });
 
-    /*
-     response.writeHead(200, {"Content-Type": "text/html"});
-     response.write(body);
-     response.end();
-     */
 }
 
 function subir(response, dataPosteada) {
@@ -52,12 +34,9 @@ function subir(response, dataPosteada) {
     const columnas = querystring.parse(dataPosteada)["columnas"];
 
     var request = new XMLHttpRequest();
-
     var target = 'https://api.mercadolibre.com/trends/'+ siteId + '/' + categoryId
     request.open('GET', target, true);
     request.onload = function () {
-
-
 
         var body = '<html>'+
             '<head>'+
@@ -69,12 +48,10 @@ function subir(response, dataPosteada) {
             '<body>'+
             '<table>'
 
-
         // Begin accessing JSON data here
         var data = JSON.parse(this.response);
-        if (request.status >= 200 && request.status < 400) {
 
-           // console.log(data)
+        if (request.status >= 200 && request.status < 400) {
 
             var cont = 0;
             for (var i=0; i < filas; i++) {
@@ -89,7 +66,6 @@ function subir(response, dataPosteada) {
 
             body += '</table></body></html>'
 
-
         } else {
             const errorMessage = document.createElement('marquee');
             errorMessage.textContent = "No funciona!";
@@ -99,7 +75,6 @@ function subir(response, dataPosteada) {
 
         response.write(body)
         response.end();
-
     }
 
     request.send();
