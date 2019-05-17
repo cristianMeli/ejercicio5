@@ -51,22 +51,44 @@ function subir(response, dataPosteada) {
     const filas = querystring.parse(dataPosteada)["filas"];
     const columnas = querystring.parse(dataPosteada)["columnas"];
 
-    siteId = "MLA"
     var request = new XMLHttpRequest();
 
-    request.open('GET', 'https://api.mercadolibre.com/trends/'+ siteId, true);
+    var target = 'https://api.mercadolibre.com/trends/'+ siteId + '/' + categoryId
+    request.open('GET', target, true);
     request.onload = function () {
+
+
+
+        var body = '<html>'+
+            '<head>'+
+            '<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />'+
+            '<style> table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; }'+
+            'td, th { border: 1px solid #dddddd; text-align: left; padding: 8px;}'+
+            ' tr:nth-child(even) { background-color: #dddddd;} </style>'+
+            '</head>'+
+            '<body>'+
+            '<table>'
+
 
         // Begin accessing JSON data here
         var data = JSON.parse(this.response);
         if (request.status >= 200 && request.status < 400) {
 
-            /*
-            data.forEach(trend => {
-                response.write(trend.keyword)
-            });
+           // console.log(data)
 
-             */
+            var cont = 0;
+            for (var i=0; i < filas; i++) {
+
+                body += '<tr>'
+                for(var j=0; j < columnas; j++){
+                    body += '<td>'+data[cont].keyword+'</td>'
+                    cont++
+                }
+                body += '</tr>'
+            }
+
+            body += '</table></body></html>'
+
 
         } else {
             const errorMessage = document.createElement('marquee');
@@ -75,8 +97,7 @@ function subir(response, dataPosteada) {
 
         }
 
-
-        response.write();
+        response.write(body)
         response.end();
 
     }
